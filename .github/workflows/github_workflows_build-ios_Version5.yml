@@ -1,0 +1,56 @@
+name: Build SoftEtherVPN iOS App
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Set up a specific Xcode version if needed
+      # - name: Select Xcode 15
+      #   run: sudo xcode-select -s /Applications/Xcode_15.3.app
+
+      # If using CocoaPods, uncomment:
+      # - name: Install CocoaPods
+      #   run: sudo gem install cocoapods
+      # - name: Install pods
+      #   run: cd SoftEtherVPN-iOS && pod install
+
+      - name: Build and archive app
+        run: |
+          xcodebuild -project SoftEtherVPN-iOS/SoftEtherVPN-iOS.xcodeproj \
+            -scheme SoftEtherVPN-iOS \
+            -sdk iphoneos \
+            -configuration Release \
+            -archivePath ${{ github.workspace }}/build/SoftEtherVPN-iOS.xcarchive archive
+
+      - name: Create ExportOptions.plist
+        run: |
+          cat <<EOF > ExportOptions.plist
+          {
+            "method": "ad-hoc",
+            "signingStyle": "automatic",
+            "stripSwiftSymbols": true,
+            "compileBitcode": false
+          }
+          EOF
+
+      - name: Export .ipa
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ${{ github.workspace }}/build/SoftEtherVPN-iOS.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath ${{ github.workspace }}/build
+
+      - name: Upload .ipa artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoftEtherVPN-iOS.ipa
+          path: build/SoftEtherVPN-iOS.ipa
