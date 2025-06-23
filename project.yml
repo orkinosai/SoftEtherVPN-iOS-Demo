@@ -13,3 +13,8 @@ targets:
     settings:
       base:
         SWIFT_OBJC_BRIDGING_HEADER: "$(SRCROOT)/vpn-ios-files/TestApp-Bridging-Header.h"
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGN_STYLE: Manual
+        DEVELOPMENT_TEAM: ""
+        PROVISIONING_PROFILE_SPECIFIER: ""
