@@ -1,0 +1,15 @@
+name: IsmailWorxVPN
+options:
+  bundleIdPrefix: com.yourcompany
+targets:
+  IsmailWorxVPN:
+    type: application
+    platform: iOS
+    deploymentTarget: "13.0"
+    sources:
+      - vpn-ios-files
+    info:
+      path: vpn-ios-files/Info.plist
+    settings:
+      base:
+        SWIFT_OBJC_BRIDGING_HEADER: "$(SRCROOT)/vpn-ios-files/TestApp-Bridging-Header.h"
