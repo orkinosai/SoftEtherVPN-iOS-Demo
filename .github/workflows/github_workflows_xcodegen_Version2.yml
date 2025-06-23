@@ -1,20 +1,24 @@
-name: IsmailWorxVPN
-options:
-  bundleIdPrefix: com.yourcompany
-targets:
-  IsmailWorxVPN:
-    type: application
-    platform: iOS
-    deploymentTarget: "13.0"
-    sources:
-      - vpn-ios-files
-    info:
-      path: vpn-ios-files/Info.plist
-    settings:
-      base:
-        SWIFT_OBJC_BRIDGING_HEADER: "$(SRCROOT)/vpn-ios-files/TestApp-Bridging-Header.h"
-        CODE_SIGNING_REQUIRED: NO
-        CODE_SIGN_IDENTITY: ""
-        CODE_SIGN_STYLE: Manual
-        DEVELOPMENT_TEAM: ""
-        PROVISIONING_PROFILE_SPECIFIER: ""
+name: CI - XcodeGen Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen
+
+      - name: Build the app
+        run: |
+          xcodebuild -project IsmailWorxVPN.xcodeproj -scheme IsmailWorxVPN -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' build
