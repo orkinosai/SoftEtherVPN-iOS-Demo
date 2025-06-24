@@ -28,7 +28,7 @@ class SoftEtherCrypto {
     /// - Parameter data: Input data
     /// - Returns: SHA-1 hash of the input data
     static func sha1(_ data: Data) -> Data {
-        let digest = SHA1.hash(data: data)
+        let digest = Insecure.SHA1.hash(data: data)
         return Data(digest)
     }
     
