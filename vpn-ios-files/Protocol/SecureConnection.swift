@@ -36,15 +36,17 @@ class SecureConnection {
         
         // Configure TLS for maximum compatibility with SoftEther
         let securityOptions = tlsOptions.securityProtocolOptions
-        sec_protocol_options_set_tls_min_version(securityOptions, .TLSv12)
-        sec_protocol_options_set_tls_max_version(securityOptions, .TLSv13)
+        // Fixed TLS version enum cases for Swift
+        sec_protocol_options_set_tls_min_version(securityOptions, .tlsProtocol12)
+        sec_protocol_options_set_tls_max_version(securityOptions, .tlsProtocol13)
         
-        // Allow all cipher suites for compatibility
-        sec_protocol_options_set_cipher_suites(securityOptions, nil, 0)
-        
+        // Note: sec_protocol_options_set_cipher_suites does not exist in iOS Security framework.
+        // If you need to add cipher suites, use sec_protocol_options_add_tls_cipher_suite. For now, skip.
+
         // Disable certificate validation for initial development (ENABLE IN PRODUCTION)
-        sec_protocol_options_set_verify_block(securityOptions, { (_, _, trustResult, _) in
-            return true // Accept all certificates for testing
+        // Closure should have 3 parameters, not 4
+        sec_protocol_options_set_verify_block(securityOptions, { (_, _, complete) in
+            complete(true) // Accept all certificates for testing
         }, queue)
         
         // Create TCP options with TLS
