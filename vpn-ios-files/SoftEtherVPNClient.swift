@@ -12,7 +12,7 @@ public class SoftEtherVPNClient {
     }
 
     public func connect(completion: @escaping (Bool, Error?) -> Void) {
-        vpnProtocol.connect(to: host, port: port) { [weak self] success, error in
+        vpnProtocol.connect(to: host, port: port) { success, error in
             if success {
                 // Connection was successful
                 completion(true, nil)
