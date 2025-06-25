@@ -1,8 +1,8 @@
 import Foundation
 
 class SecureConnection {
-    // Example properties and methods
+    // Example: customize as needed for your app
     func connect() {
-        // Implement connection logic here
+        // Connection logic here
     }
 }
