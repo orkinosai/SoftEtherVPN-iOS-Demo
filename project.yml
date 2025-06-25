@@ -9,6 +9,7 @@ targets:
     sources:
       - vpn-ios-files
       - src/Cedar
+      - src/Mayaqua
     info:
       path: vpn-ios-files/Info.plist
     settings:
