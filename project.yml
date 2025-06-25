@@ -8,6 +8,7 @@ targets:
     deploymentTarget: "13.0"
     sources:
       - vpn-ios-files
+      - src/Cedar
     info:
       path: vpn-ios-files/Info.plist
     settings:
@@ -18,3 +19,4 @@ targets:
         CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: ""
         PROVISIONING_PROFILE_SPECIFIER: ""
+        HEADER_SEARCH_PATHS: "$(SRCROOT)/vpn-ios-files $(SRCROOT)/src/Cedar"
