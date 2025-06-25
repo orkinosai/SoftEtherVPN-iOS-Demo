@@ -7,9 +7,12 @@ targets:
     platform: iOS
     deploymentTarget: "13.0"
     sources:
-      - vpn-ios-files
-      - src/Cedar
-      - src/Mayaqua
+      - path: vpn-ios-files
+        excludes: ["**/CMakeLists.txt"]
+      - path: src/Cedar
+        excludes: ["**/CMakeLists.txt"]
+      - path: src/Mayaqua
+        excludes: ["**/CMakeLists.txt"]
     info:
       path: vpn-ios-files/Info.plist
     settings:
@@ -20,4 +23,4 @@ targets:
         CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: ""
         PROVISIONING_PROFILE_SPECIFIER: ""
-        HEADER_SEARCH_PATHS: "$(SRCROOT)/vpn-ios-files $(SRCROOT)/src/Cedar"
+        HEADER_SEARCH_PATHS: "$(SRCROOT)/vpn-ios-files $(SRCROOT)/src/Cedar $(SRCROOT)/src/Mayaqua"
