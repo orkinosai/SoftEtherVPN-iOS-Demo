@@ -23,4 +23,4 @@ targets:
         CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: ""
         PROVISIONING_PROFILE_SPECIFIER: ""
-        HEADER_SEARCH_PATHS: "$(SRCROOT)/vpn-ios-files $(SRCROOT)/src/Cedar $(SRCROOT)/src/Mayaqua"
+        HEADER_SEARCH_PATHS: "$(SRCROOT)/vpn-ios-files $(SRCROOT)/src $(SRCROOT)/src/Cedar $(SRCROOT)/src/Mayaqua"
