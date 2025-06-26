@@ -29,5 +29,7 @@ targets:
           $(SRCROOT)/src/Cedar
           $(SRCROOT)/src/Mayaqua
           $(SRCROOT)/external/openssl/include
+          $(SRCROOT)/external/libsodium/include
         LIBRARY_SEARCH_PATHS: |
           $(SRCROOT)/external/openssl/lib
+          $(SRCROOT)/external/libsodium/lib

@@ -1,0 +1,9 @@
+- name: Build libsodium for iOS
+  run: |
+    git clone https://github.com/jedisct1/libsodium.git
+    cd libsodium
+    ./dist-build/ios.sh
+    # The script outputs to libsodium-ios/
+    mkdir -p $GITHUB_WORKSPACE/external/libsodium
+    cp -r libsodium-ios/include $GITHUB_WORKSPACE/external/libsodium/
+    cp -r libsodium-ios/lib $GITHUB_WORKSPACE/external/libsodium/
