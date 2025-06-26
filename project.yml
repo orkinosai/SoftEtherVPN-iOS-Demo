@@ -10,7 +10,7 @@ targets:
       - path: vpn-ios-files
         excludes: ["**/CMakeLists.txt"]
       - path: src/Cedar
-        excludes: ["**/CMakeLists.txt"]
+        excludes: ["**/CMakeLists.txt", "**/Win*.c", "**/Win*.cpp", "**/Win*.h"]
       - path: src/Mayaqua
         excludes: ["**/CMakeLists.txt"]
     info:
