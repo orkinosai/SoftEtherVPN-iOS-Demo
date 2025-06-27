@@ -13,11 +13,11 @@ jobs:
 
       - name: Build libsodium for iOS
         run: |
-          git clone https://github.com/jedisct1/libsodium.git
-          cd libsodium
-          ./dist-build/ios.sh
-          mkdir -p $GITHUB_WORKSPACE/external/libsodium
-          cp -r libsodium-ios/include $GITHUB_WORKSPACE/external/libsodium/
-          cp -r libsodium-ios/lib $GITHUB_WORKSPACE/external/libsodium/
-
-      # Add more build/test steps here as needed
+          mkdir -p scripts
+          wget -O scripts/build-libsodium-ios.sh https://raw.githubusercontent.com/${{ github.repository }}/main/scripts/build-libsodium-ios.sh || true
+          chmod +x scripts/build-libsodium-ios.sh
+          ./scripts/build-libsodium-ios.sh
+          
+      # Add your build/test steps here
+      # - name: Build your iOS app
+      #   run: xcodebuild ... (your build commands)
