@@ -11,13 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build libsodium for iOS
+      - name: Download prebuilt libsodium for iOS
         run: |
-          mkdir -p scripts
-          wget -O scripts/build-libsodium-ios.sh https://raw.githubusercontent.com/${{ github.repository }}/main/scripts/build-libsodium-ios.sh || true
-          chmod +x scripts/build-libsodium-ios.sh
-          ./scripts/build-libsodium-ios.sh
-          
-      # Add your build/test steps here
-      # - name: Build your iOS app
-      #   run: xcodebuild ... (your build commands)
+          curl -L -o libsodium-ios.tar.gz https://github.com/LeoneBacci/libsodium-ios/releases/download/1.0.19/libsodium-ios-1.0.19.tar.gz
+          mkdir -p external/libsodium
+          tar -xzf libsodium-ios.tar.gz -C external/libsodium --strip-components=1
