@@ -11,8 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Download prebuilt libsodium for iOS
+      - name: Download and extract libsodium iOS XCFramework
         run: |
-          curl -L -o libsodium-ios.tar.gz https://github.com/LeoneBacci/libsodium-ios/releases/download/1.0.19/libsodium-ios-1.0.19.tar.gz
+          curl -L -o libsodium-ios-xcframework.zip https://github.com/jedisct1/libsodium/releases/download/1.0.19/libsodium-1.0.19-ios-xcframework.zip
           mkdir -p external/libsodium
-          tar -xzf libsodium-ios.tar.gz -C external/libsodium --strip-components=1
+          unzip libsodium-ios-xcframework.zip -d external/libsodium
+
+      # Add your build steps here! For example:
+      # - name: Build your iOS app
+      #   run: xcodebuild ...
