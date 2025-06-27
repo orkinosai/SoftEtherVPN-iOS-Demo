@@ -1,20 +1,31 @@
-name: iOS CI
+name: Build iOS App
 
 on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Build and test (SPM)
-        run: |
-          xcodebuild test \
-            -scheme "YOUR_SCHEME" \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
-            -sdk iphonesimulator \
-            -enableCodeCoverage YES
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install XcodeGen
+      run: brew install xcodegen
+
+    - name: Set up libsodium
+      run: bash scripts/setup-libsodium.sh
+
+    - name: Generate Xcode project
+      run: xcodegen
+
+    - name: Build (Debug)
+      run: |
+        xcodebuild -project IsmailWorxVPN.xcodeproj \
+        -scheme IsmailWorxVPN \
+        -sdk iphoneos \
+        -configuration Debug \
+        build
