@@ -6,17 +6,15 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-and-test:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Download and extract libsodium iOS XCFramework
+      - name: Build and test (SPM)
         run: |
-          curl -L -o libsodium-ios-xcframework.zip https://github.com/jedisct1/libsodium/releases/download/1.0.19/libsodium-1.0.19-ios-xcframework.zip
-          mkdir -p external/libsodium
-          unzip libsodium-ios-xcframework.zip -d external/libsodium
-
-      # Add your build steps here! For example:
-      # - name: Build your iOS app
-      #   run: xcodebuild ...
+          xcodebuild test \
+            -scheme "YOUR_SCHEME" \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.4' \
+            -sdk iphonesimulator \
+            -enableCodeCoverage YES
