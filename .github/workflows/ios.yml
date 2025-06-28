@@ -22,10 +22,10 @@ jobs:
     - name: Generate Xcode project
       run: xcodegen
 
-    - name: Build (Debug)
+    - name: Build (Debug, Simulator)
       run: |
         xcodebuild -project IsmailWorxVPN.xcodeproj \
         -scheme IsmailWorxVPN \
-        -sdk iphoneos \
+        -sdk iphonesimulator \
         -configuration Debug \
         build
