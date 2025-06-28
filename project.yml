@@ -17,16 +17,16 @@ targets:
       path: vpn-ios-files/Info.plist
     settings:
       base:
-        # Do NOT treat warnings as errors (fixes "damn code i nered pahyse one asap fuck warnings")
         GCC_TREAT_WARNINGS_AS_ERRORS: NO
         CLANG_TREAT_WARNINGS_AS_ERRORS: NO
         SWIFT_TREAT_WARNINGS_AS_ERRORS: NO
         SWIFT_OBJC_BRIDGING_HEADER: "$(SRCROOT)/vpn-ios-files/TestApp-Bridging-Header.h"
         CODE_SIGNING_REQUIRED: NO
-        CODE_SIGN_IDENTITY: ""
+        CODE_SIGN_IDENTITY: "-"
         CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: ""
         PROVISIONING_PROFILE_SPECIFIER: ""
+        PROVISIONING_PROFILE: ""
         HEADER_SEARCH_PATHS: |
           $(SRCROOT)/vpn-ios-files
           $(SRCROOT)/src
