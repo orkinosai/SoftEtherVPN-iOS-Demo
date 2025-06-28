@@ -1,63 +1,75 @@
-// ...keep all your previous code...
+// SEARCH AND REPLACE PATCH ONLY
+// --- Fix assignment-in-conditional warnings and function prototype warning ---
 
-// --- FIX: Assignment in conditionals ---
-// Example of the original problematic line:
-// while (block = GetNext(n->UdpSendQueue))
-// Now fixed to:
+// 1. Fix 'assignment in condition' warnings by adding parentheses around assignments in while loops.
+// 2. Fix function declaration warning for VirtualGetPacketAdapter by adding void parameter.
+
+//
+// ---- DO THE FOLLOWING CHANGES ----
+//
+
+// --- 1. Assignment in Conditionals ---
+// In the following functions, change any line like
+//   while (block = GetNext(...))
+// to
+//   while ((block = GetNext(...)))
+
+//
+// Specifically, change the following:
+//
+// In NatTransactIcmp:
+while (block = GetNext(n->UdpSendQueue))
+//
+// TO:
 while ((block = GetNext(n->UdpSendQueue)))
-// Do the same for similar lines below.
+//
 
-// In NatTransactIcmp, replace:
-    // Try to send data to the UDP socket
-    while (block = GetNext(n->UdpSendQueue))
-    // with:
-    while ((block = GetNext(n->UdpSendQueue)))
+// In NatTransactUdp:
+while (block = GetNext(n->UdpSendQueue))
+//
+// TO:
+while ((block = GetNext(n->UdpSendQueue)))
+//
 
-// In NatTransactUdp, replace:
-    // Try to send data to the UDP socket
-    while (block = GetNext(n->UdpSendQueue))
-    // with:
-    while ((block = GetNext(n->UdpSendQueue)))
+// In DeleteNatUdp:
+while (block = GetNext(n->UdpRecvQueue))
+while (block = GetNext(n->UdpSendQueue))
+//
+// TO:
+while ((block = GetNext(n->UdpRecvQueue)))
+while ((block = GetNext(n->UdpSendQueue)))
+//
 
-// In DeleteNatUdp, replace:
-    // Release all queues
-    while (block = GetNext(n->UdpRecvQueue))
-    // with:
-    while ((block = GetNext(n->UdpRecvQueue)))
-    // and
-    while (block = GetNext(n->UdpSendQueue))
-    // with:
-    while ((block = GetNext(n->UdpSendQueue)))
+// In DeleteNatIcmp:
+while (block = GetNext(n->UdpRecvQueue))
+while (block = GetNext(n->UdpSendQueue))
+//
+// TO:
+while ((block = GetNext(n->UdpRecvQueue)))
+while ((block = GetNext(n->UdpSendQueue)))
+//
 
-// In DeleteNatIcmp, replace:
-    // Release all queues
-    while (block = GetNext(n->UdpRecvQueue))
-    // with:
-    while ((block = GetNext(n->UdpRecvQueue)))
-    // and
-    while (block = GetNext(n->UdpSendQueue))
-    // with:
-    while ((block = GetNext(n->UdpSendQueue)))
+// In Virtual_Free:
+while (block = GetNext(v->SendQueue))
+//
+// TO:
+while ((block = GetNext(v->SendQueue)))
+//
 
-// In Virtual_Free, replace:
-    // Release all queues
-    while (block = GetNext(v->SendQueue))
-    // with:
-    while ((block = GetNext(v->SendQueue)))
-
-// In NnPollingIpCombine, PollingIpCombine, and similar, if you see:
-// while (block = GetNext(…))
-// change to:
-// while ((block = GetNext(…)))
-
-// --- FIX: Function prototype ---
-// Replace
+// --- 2. Function Prototype Warning ---
+// At the very end of the file, change:
 PACKET_ADAPTER *VirtualGetPacketAdapter()
-// With:
+//
+// TO:
 PACKET_ADAPTER *VirtualGetPacketAdapter(void)
+//
 
+//
+// ---- END OF PATCH ----
+//
 
-// --- END OF PATCH ---
-
-
-// ...keep all your remaining code...
+// This is a patch for the original file. Please search for the relevant lines in your Virtual.c
+// and replace as above. Do not copy/paste while statements outside any function, and do not
+// add code at the top of the file. Only update the relevant lines as instructed above.
+//
+// The rest of your file remains unchanged!
