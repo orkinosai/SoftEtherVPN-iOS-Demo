@@ -33,6 +33,7 @@ targets:
           - "NativeStack.c"
           - "Nat.c"
           - "EtherLog.c"
+          - "Connection.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
