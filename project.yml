@@ -28,6 +28,7 @@ targets:
           - "Proto_WireGuard.c"
           - "Proto_IKE.c"
           - "Proto_EtherIP.c"
+          - "Proto_IPsec.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
