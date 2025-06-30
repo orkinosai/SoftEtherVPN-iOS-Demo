@@ -20,6 +20,7 @@ targets:
           - "**/Win*.h"
           - "Virtual.c"
           - "VLanWin32.c"
+          - "Server.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
