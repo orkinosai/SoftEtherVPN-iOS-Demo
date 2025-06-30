@@ -34,6 +34,7 @@ targets:
           - "Nat.c"
           - "EtherLog.c"
           - "Connection.c"
+          - "Command.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
