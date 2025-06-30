@@ -23,6 +23,7 @@ targets:
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
+          - "Tick64.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
