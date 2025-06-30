@@ -43,6 +43,7 @@ targets:
           - "Memory.c"
           - "Mayaqua.c"
           - "Kernel.c"
+          - "Internat.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
