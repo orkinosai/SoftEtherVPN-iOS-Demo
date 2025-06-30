@@ -25,6 +25,7 @@ targets:
           - "SecureNAT.c"
           - "Sam.c"
           - "Radius.c"
+          - "Proto_WireGuard.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
