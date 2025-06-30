@@ -24,6 +24,7 @@ targets:
         excludes:
           - "**/CMakeLists.txt"
           - "Tick64.c"
+          - "Table.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
