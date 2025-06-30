@@ -27,6 +27,7 @@ targets:
           - "Radius.c"
           - "Proto_WireGuard.c"
           - "Proto_IKE.c"
+          - "Proto_EtherIP.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
