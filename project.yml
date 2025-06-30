@@ -29,6 +29,7 @@ targets:
           - "Proto_IKE.c"
           - "Proto_EtherIP.c"
           - "Proto_IPsec.c"
+          - "NullLan.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
