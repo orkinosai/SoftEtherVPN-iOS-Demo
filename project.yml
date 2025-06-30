@@ -37,6 +37,7 @@ targets:
           - "Table.c"
           - "Secure.c"
           - "Network.c"
+          - "OS.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
