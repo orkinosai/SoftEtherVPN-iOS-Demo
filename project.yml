@@ -21,11 +21,14 @@ targets:
           - "Virtual.c"
           - "VLanWin32.c"
           - "Server.c"
+          - "Session.c"
+          - "SecureNAT.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
           - "Tick64.c"
           - "Table.c"
+          - "Secure.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
