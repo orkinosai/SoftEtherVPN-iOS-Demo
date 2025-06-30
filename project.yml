@@ -39,6 +39,7 @@ targets:
           - "Secure.c"
           - "Network.c"
           - "OS.c"
+          - "Memory.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
