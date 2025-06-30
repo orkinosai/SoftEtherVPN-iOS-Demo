@@ -31,6 +31,7 @@ targets:
           - "Proto_IPsec.c"
           - "NullLan.c"
           - "NativeStack.c"
+          - "Nat.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
