@@ -1,6 +1,7 @@
 name: IsmailWorxVPN
 options:
   bundleIdPrefix: com.yourcompany
+
 targets:
   IsmailWorxVPN:
     type: application
@@ -8,11 +9,20 @@ targets:
     deploymentTarget: "13.0"
     sources:
       - path: vpn-ios-files
-        excludes: ["**/CMakeLists.txt"]
+        excludes:
+          - "**/CMakeLists.txt"
+          - "vpnbridge.c"
       - path: src/Cedar
-        excludes: ["**/CMakeLists.txt", "**/Win*.c", "**/Win*.cpp", "**/Win*.h"]
+        excludes:
+          - "**/CMakeLists.txt"
+          - "**/Win*.c"
+          - "**/Win*.cpp"
+          - "**/Win*.h"
+          - "Virtual.c"
+          - "VLanWin32.c"
       - path: src/Mayaqua
-        excludes: ["**/CMakeLists.txt"]
+        excludes:
+          - "**/CMakeLists.txt"
     info:
       path: vpn-ios-files/Info.plist
     settings:
