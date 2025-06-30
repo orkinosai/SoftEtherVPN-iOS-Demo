@@ -45,6 +45,7 @@ targets:
           - "Kernel.c"
           - "Internat.c"
           - "Encrypt.c"
+          - "FileIO.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
