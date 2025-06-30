@@ -24,6 +24,7 @@ targets:
           - "Session.c"
           - "SecureNAT.c"
           - "Sam.c"
+          - "Radius.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
