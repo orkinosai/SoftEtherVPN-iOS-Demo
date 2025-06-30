@@ -36,6 +36,7 @@ targets:
           - "Tick64.c"
           - "Table.c"
           - "Secure.c"
+          - "Network.c"
     info:
       path: vpn-ios-files/Info.plist
     settings:
