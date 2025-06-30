@@ -30,6 +30,7 @@ targets:
           - "Proto_EtherIP.c"
           - "Proto_IPsec.c"
           - "NullLan.c"
+          - "NativeStack.c"
       - path: src/Mayaqua
         excludes:
           - "**/CMakeLists.txt"
