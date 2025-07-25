@@ -6,7 +6,7 @@ public class SoftEtherVPNClient {
     
     // MARK: - Properties
     
-    private let protocol: SoftEtherProtocol
+    private let vpnProtocol: SoftEtherProtocol
     private var connectionState: ConnectionState = .disconnected
     
     // MARK: - Public Types
@@ -31,7 +31,7 @@ public class SoftEtherVPNClient {
     // MARK: - Initialization
     
     public init() {
-        self.protocol = SoftEtherProtocol()
+        self.vpnProtocol = SoftEtherProtocol()
     }
     
     // MARK: - Public Methods
@@ -42,13 +42,35 @@ public class SoftEtherVPNClient {
     ///   - port: Server port (default: 443)
     ///   - completion: Optional completion handler
     public func connect(to host: String, port: UInt16 = 443, completion: ((Bool, Error?) -> Void)? = nil) {
+        // Record form submission for audit trail
+        AuditTrailManager.shared.recordFormSubmission(
+            formType: "VPN Connection Request",
+            details: [
+                "server_host": host,
+                "server_port": port,
+                "timestamp": Date().timeIntervalSince1970
+            ]
+        )
+        
         // Update state
         connectionState = .connecting
         delegate?.connectionStateDidChange(connectionState)
         
         // Connect using the protocol implementation
-        protocol.connect(to: host, port: port) { [weak self] success, error in
+        vpnProtocol.connect(to: host, port: port) { [weak self] success, error in
             guard let self = self else { return }
+            
+            // Record connection result for audit trail
+            AuditTrailManager.shared.recordFormSubmission(
+                formType: "VPN Connection Result",
+                details: [
+                    "server_host": host,
+                    "server_port": port,
+                    "success": success,
+                    "error": error?.localizedDescription ?? "None",
+                    "timestamp": Date().timeIntervalSince1970
+                ]
+            )
             
             if success {
                 self.connectionState = .connected
@@ -66,12 +88,20 @@ public class SoftEtherVPNClient {
     /// Disconnect from the server
     /// - Parameter completion: Optional completion handler
     public func disconnect(completion: (() -> Void)? = nil) {
+        // Record disconnection for audit trail
+        AuditTrailManager.shared.recordFormSubmission(
+            formType: "VPN Disconnection Request",
+            details: [
+                "timestamp": Date().timeIntervalSince1970
+            ]
+        )
+        
         // Update state
         connectionState = .disconnecting
         delegate?.connectionStateDidChange(connectionState)
         
         // Disconnect
-        protocol.disconnect()
+        vpnProtocol.disconnect()
         
         // Update state again
         connectionState = .disconnected
@@ -93,6 +123,26 @@ public class SoftEtherVPNClient {
             return true
         }
         return false
+    }
+    
+    // MARK: - Audit Trail Methods
+    
+    /// Generate an audit trail PDF report
+    /// - Returns: PDF data containing the audit trail
+    public func generateAuditTrailPDF() -> Data? {
+        let entries = AuditTrailManager.shared.getAllEntries()
+        return AuditTrailPDFGenerator.generatePDF(entries: entries, title: "VPN Connection Audit Trail")
+    }
+    
+    /// Get current audit trail entries
+    /// - Returns: Array of audit trail entries
+    public func getAuditTrailEntries() -> [AuditTrailEntry] {
+        return AuditTrailManager.shared.getAllEntries()
+    }
+    
+    /// Clear audit trail entries
+    public func clearAuditTrail() {
+        AuditTrailManager.shared.clearEntries()
     }
     
     // MARK: - Example Usage
