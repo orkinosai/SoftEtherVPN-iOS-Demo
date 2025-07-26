@@ -1,0 +1,28 @@
+# .NET build outputs
+bin/
+obj/
+publish/
+
+# Visual Studio / IDE files
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Runtime files
+*.pid
+*.seed
+
+# Dependency directories
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
