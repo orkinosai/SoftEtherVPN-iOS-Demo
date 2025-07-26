@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace BlazorApp.Models
 {
     public class AppConfiguration
@@ -59,5 +61,40 @@ namespace BlazorApp.Models
     {
         public int AzureBlobRetentionInDays { get; set; }
         public int WebsiteHttpLoggingRetentionDays { get; set; }
+    }
+
+    /// <summary>
+    /// Model for demo form submission to demonstrate debug console logging.
+    /// </summary>
+    public class FormSubmissionModel
+    {
+        [Required(ErrorMessage = "Email address is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        public string Email { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, ErrorMessage = "Name cannot exceed 100 characters")]
+        public string Name { get; set; } = string.Empty;
+        
+        [Required(ErrorMessage = "Subject is required")]
+        [StringLength(200, ErrorMessage = "Subject cannot exceed 200 characters")]
+        public string Subject { get; set; } = string.Empty;
+        
+        [StringLength(1000, ErrorMessage = "Message cannot exceed 1000 characters")]
+        public string Message { get; set; } = string.Empty;
+        
+        public bool IncludePdf { get; set; } = true;
+        public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Model for API response simulation.
+    /// </summary>
+    public class ApiResponse
+    {
+        public bool Success { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public string TransactionId { get; set; } = string.Empty;
+        public DateTime ProcessedAt { get; set; } = DateTime.UtcNow;
     }
 }
