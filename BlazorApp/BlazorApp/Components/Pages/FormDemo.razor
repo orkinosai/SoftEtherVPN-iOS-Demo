@@ -1,0 +1,236 @@
+@page "/form-demo"
+@using BlazorApp.Models
+@inject IJSRuntime JS
+@inject EmailSettings EmailConfig
+@inject BlobStorageSettings BlobConfig
+
+<PageTitle>Form Submission Demo - Debug Console Logging</PageTitle>
+
+<h1>Form Submission Demo</h1>
+
+<div class="alert alert-info">
+    <h4>Debug Console Logging Demonstration</h4>
+    <p>This page demonstrates the <code>DebugConsoleHelper</code> functionality. Open your browser's developer console (F12) to see debug logs for each step of the form submission process.</p>
+    <p>Fill out the form below and click Submit to see the debug logging in action.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Demo Form</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email Address *</label>
+                    <input type="email" id="email" class="form-control" @bind="formModel.Email" placeholder="your.email@example.com" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name *</label>
+                    <input type="text" id="name" class="form-control" @bind="formModel.Name" placeholder="Your Name" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject *</label>
+                    <input type="text" id="subject" class="form-control" @bind="formModel.Subject" placeholder="Form submission subject" />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea id="message" class="form-control" rows="4" @bind="formModel.Message" placeholder="Additional information..."></textarea>
+                </div>
+                
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="includePdf" class="form-check-input" @bind="formModel.IncludePdf" />
+                    <label class="form-check-label" for="includePdf">
+                        Include PDF attachment
+                    </label>
+                </div>
+                
+                <button type="button" class="btn btn-primary" @onclick="HandleSubmit" disabled="@isSubmitting">
+                    @if (isSubmitting)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <span>Processing...</span>
+                    }
+                    else
+                    {
+                        <span>Submit Form</span>
+                    }
+                </button>
+                
+                <button type="button" class="btn btn-secondary ms-2" @onclick="TestDebugHelper">
+                    Test Debug Helper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h6>Submission Steps</h6>
+            </div>
+            <div class="card-body">
+                <p class="small">When you submit the form, the following steps will be logged to the browser console:</p>
+                <ol class="small">
+                    <li>Email address validation</li>
+                    <li>Form data collection</li>
+                    <li>PDF generation (simulated)</li>
+                    <li>Email sending (simulated)</li>
+                    <li>Blob storage upload (simulated)</li>
+                    <li>API response handling</li>
+                </ol>
+                <div class="alert alert-warning alert-sm mt-3">
+                    <small><strong>Note:</strong> All operations are simulated for demonstration purposes.</small>
+                </div>
+            </div>
+        </div>
+        
+        @if (!string.IsNullOrEmpty(submissionResult))
+        {
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h6>Submission Result</h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert @(submissionSuccess ? "alert-success" : "alert-danger")">
+                        @submissionResult
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private FormSubmissionModel formModel { get; set; } = new();
+    private bool isSubmitting = false;
+    private string submissionResult = "";
+    private bool submissionSuccess = false;
+
+    private async Task TestDebugHelper()
+    {
+        await DebugConsoleHelper.LogAsync(JS, "Debug helper test message", new { TestData = "Hello World", Timestamp = DateTime.Now });
+        await DebugConsoleHelper.ErrorAsync(JS, "Debug helper error test", new { Error = "This is a test error" });
+    }
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        submissionResult = "";
+        StateHasChanged();
+
+        try
+        {
+            // Step 1: Email address validation and collection
+            await DebugConsoleHelper.LogAsync(JS, "Step 1: Email entered", formModel.Email);
+            await Task.Delay(500); // Simulate processing time
+
+            // Step 2: Form data collection
+            var formData = new
+            {
+                Email = formModel.Email,
+                Name = formModel.Name,
+                Subject = formModel.Subject,
+                Message = formModel.Message,
+                IncludePdf = formModel.IncludePdf,
+                SubmittedAt = formModel.SubmittedAt
+            };
+            await DebugConsoleHelper.LogAsync(JS, "Step 2: Form Data collected", formData);
+            await Task.Delay(500);
+
+            // Step 3: PDF generation (simulated)
+            string? pdfFileName = null;
+            int pdfSize = 0;
+            
+            if (formModel.IncludePdf)
+            {
+                pdfFileName = $"form_submission_{DateTime.UtcNow:yyyyMMdd_HHmmss}.pdf";
+                pdfSize = new Random().Next(50000, 200000); // Simulate PDF size
+                
+                await DebugConsoleHelper.LogAsync(JS, "Step 3: PDF generated", new { 
+                    FileName = pdfFileName, 
+                    Size = pdfSize,
+                    SizeFormatted = $"{pdfSize / 1024.0:F1} KB"
+                });
+            }
+            else
+            {
+                await DebugConsoleHelper.LogAsync(JS, "Step 3: PDF generation skipped", new { Reason = "User opted out" });
+            }
+            await Task.Delay(800);
+
+            // Step 4: Email sending (simulated)
+            var emailData = new
+            {
+                To = formModel.Email,
+                From = EmailConfig.FromEmail,
+                FromName = EmailConfig.FromName,
+                Subject = $"Form Submission: {formModel.Subject}",
+                SmtpServer = EmailConfig.SmtpServer,
+                SmtpPort = EmailConfig.SmtpPort,
+                HasAttachment = formModel.IncludePdf,
+                AttachmentName = pdfFileName
+            };
+            await DebugConsoleHelper.LogAsync(JS, "Step 4: Email sent", emailData);
+            await Task.Delay(1000);
+
+            // Step 5: Blob storage upload (simulated)
+            if (formModel.IncludePdf && !string.IsNullOrEmpty(pdfFileName))
+            {
+                var blobData = new
+                {
+                    ContainerName = BlobConfig.ContainerName,
+                    BlobName = pdfFileName,
+                    Size = pdfSize,
+                    ContentType = "application/pdf",
+                    UploadedAt = DateTime.UtcNow,
+                    Url = $"https://storage.blob.core.windows.net/{BlobConfig.ContainerName}/{pdfFileName}"
+                };
+                await DebugConsoleHelper.LogAsync(JS, "Step 5: Uploaded to blob storage", blobData);
+            }
+            else
+            {
+                await DebugConsoleHelper.LogAsync(JS, "Step 5: Blob storage upload skipped", new { Reason = "No PDF to upload" });
+            }
+            await Task.Delay(600);
+
+            // Step 6: API response simulation
+            var apiResponse = new ApiResponse
+            {
+                Success = true,
+                Message = "Form submitted successfully",
+                TransactionId = Guid.NewGuid().ToString("N")[..8].ToUpper(),
+                ProcessedAt = DateTime.UtcNow
+            };
+            await DebugConsoleHelper.LogAsync(JS, "Step 6: API response received", apiResponse);
+
+            // Final success log
+            await DebugConsoleHelper.LogAsync(JS, "Form submission completed successfully", new { 
+                TotalSteps = 6,
+                ProcessingTimeMs = 3400,
+                TransactionId = apiResponse.TransactionId
+            });
+
+            submissionResult = $"Form submitted successfully! Transaction ID: {apiResponse.TransactionId}";
+            submissionSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            await DebugConsoleHelper.ErrorAsync(JS, "Form submission failed", new { 
+                Error = ex.Message,
+                StackTrace = ex.StackTrace?.Split('\n').Take(5).ToArray()
+            });
+            
+            submissionResult = $"Submission failed: {ex.Message}";
+            submissionSuccess = false;
+        }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+}
