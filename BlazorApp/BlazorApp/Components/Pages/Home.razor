@@ -1,0 +1,50 @@
+﻿@page "/"
+@using BlazorApp.Models
+@inject AppConfiguration Config
+
+<PageTitle>@Config.ApplicationTitle</PageTitle>
+
+<h1>@Config.ApplicationTitle</h1>
+
+<div class="alert alert-info">
+    <h4>Configuration Demonstration</h4>
+    <p>This page displays configuration values loaded exclusively from <code>appsettings.json</code> files (environment variables are ignored).</p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Mock Data Settings</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Use Mock Data:</strong> @Config.UseMockData</p>
+                <p><strong>Accommodation Forms Enabled:</strong> @Config.MockDataSettings.AccommodationFormsEnabled</p>
+                <p><strong>Max Forms Per User:</strong> @Config.MockDataSettings.MaxFormsPerUser</p>
+                <p><strong>Default Location:</strong> @Config.MockDataSettings.DefaultLocation</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Feature Flags</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Enable Notifications:</strong> @Config.Features.EnableNotifications</p>
+                <p><strong>Enable Reporting:</strong> @Config.Features.EnableReporting</p>
+                <p><strong>Enable Advanced Search:</strong> @Config.Features.EnableAdvancedSearch</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <div class="alert alert-success">
+        <h6>Configuration Source Verification</h6>
+        <p>All values above are loaded from <code>appsettings.json</code> and <code>appsettings.Development.json</code> files.</p>
+        <p>Environment variables are explicitly ignored to ensure consistent configuration across all environments.</p>
+        <p>Check the application logs to see the configuration loading details.</p>
+    </div>
+</div>
