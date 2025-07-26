@@ -1,6 +1,11 @@
 ﻿@page "/"
 @using BlazorApp.Models
 @inject AppConfiguration Config
+@inject ApplicationSettings AppSettings
+@inject EmailSettings EmailConfig
+@inject BlobStorageSettings BlobConfig
+@inject ApplicationInsightsSettings AIConfig
+@inject DiagnosticsSettings DiagConfig
 
 <PageTitle>@Config.ApplicationTitle</PageTitle>
 
@@ -13,7 +18,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h5>Mock Data Settings</h5>
             </div>
@@ -24,10 +29,37 @@
                 <p><strong>Default Location:</strong> @Config.MockDataSettings.DefaultLocation</p>
             </div>
         </div>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Application Settings</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Application Name:</strong> @AppSettings.ApplicationName</p>
+                <p><strong>Application URL:</strong> @AppSettings.ApplicationUrl</p>
+                <p><strong>Token Expiration:</strong> @AppSettings.TokenExpirationMinutes minutes</p>
+                <p><strong>Token Length:</strong> @AppSettings.TokenLength</p>
+            </div>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Email Settings</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Company Email:</strong> @EmailConfig.CompanyEmail</p>
+                <p><strong>From Email:</strong> @EmailConfig.FromEmail</p>
+                <p><strong>From Name:</strong> @EmailConfig.FromName</p>
+                <p><strong>SMTP Server:</strong> @EmailConfig.SmtpServer</p>
+                <p><strong>SMTP Port:</strong> @EmailConfig.SmtpPort</p>
+                <p><strong>SMTP Username:</strong> @EmailConfig.SmtpUsername</p>
+                <p><strong>Use SSL:</strong> @EmailConfig.UseSsl</p>
+            </div>
+        </div>
     </div>
     
     <div class="col-md-6">
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 <h5>Feature Flags</h5>
             </div>
@@ -35,6 +67,37 @@
                 <p><strong>Enable Notifications:</strong> @Config.Features.EnableNotifications</p>
                 <p><strong>Enable Reporting:</strong> @Config.Features.EnableReporting</p>
                 <p><strong>Enable Advanced Search:</strong> @Config.Features.EnableAdvancedSearch</p>
+            </div>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Blob Storage Settings</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Container Name:</strong> @BlobConfig.ContainerName</p>
+                <p><strong>Connection String:</strong> @(string.IsNullOrEmpty(BlobConfig.ConnectionString) ? "Not configured" : "[CONFIGURED]")</p>
+            </div>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Application Insights</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Mode:</strong> @AIConfig.Mode</p>
+                <p><strong>Agent Version:</strong> @AIConfig.AgentExtensionVersion</p>
+                <p><strong>Connection String:</strong> @(string.IsNullOrEmpty(AIConfig.ConnectionString) ? "Not configured" : "[CONFIGURED]")</p>
+            </div>
+        </div>
+        
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Diagnostics Settings</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Azure Blob Retention:</strong> @DiagConfig.AzureBlobRetentionInDays days</p>
+                <p><strong>HTTP Logging Retention:</strong> @DiagConfig.WebsiteHttpLoggingRetentionDays days</p>
             </div>
         </div>
     </div>
